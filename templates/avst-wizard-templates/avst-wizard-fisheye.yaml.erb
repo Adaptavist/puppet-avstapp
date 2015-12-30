@@ -1,0 +1,21 @@
+---
+
+# Puppet managed config file for avst-wizard
+# 
+
+<%unless @avst_wizard_properties['license'] or @base_url or @avst_wizard_properties['admin_pass']%>
+    <% fail "Required wizard params not present. Make sure license, admin_pass are present."%>
+<%end%>
+
+## Fisheye
+base_url: <%=@base_url%>
+<%@avst_wizard_properties.keys.each do |k|  -%>
+<%if k == 'license'-%>
+license: |
+<%@avst_wizard_properties[k].split("\n").each do |l|-%>
+    <%="#{l}"%>
+<%-end-%>
+<%-else-%>
+<%="#{k}: #{@avst_wizard_properties[k]}"%>
+<%-end-%>
+<%-end-%>

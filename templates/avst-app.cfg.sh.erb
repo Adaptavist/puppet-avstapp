@@ -1,0 +1,136 @@
+### File managed with puppet ###
+#### Served by:        '<%= scope.lookupvar('::servername') %>'
+#### Module:           '<%= scope.to_hash['module_name'] %>'
+#### Template source:  '<%= template_source %>'
+
+INSTANCE_NAME="<%= @name %>"
+PRODUCT="<%= @application_type %>"
+
+SHUTDOWN_PORT="<%= @shutport %>"
+CONTEXT_PATH="<%= @context_path %>"
+
+<%if @connectors%>
+CONNECTOR_COUNT="<%= @connectors.length %>"
+<%- index = 0
+@connectors.each do | conn |
+  if index == 0 then
+    suffix = ""
+  else
+    suffix = "_#{index}"
+  end
+  conn.keys.sort.each do |k| -%>
+<%= "#{k.upcase}#{suffix}" %>=<%= "#{conn[k]}" %>
+<% end %>
+<%- index += 1
+end -%>
+<%end%>
+
+<% if @db %>
+# Database config
+ <%- @db.keys.sort.each do |key| -%>
+<%="#{key}=\'#{@db[key]}\'"%>
+ <%-end%>
+<% end %>
+
+<% if @java_flags %>
+#Java flags
+ <%- @java_flags.keys.sort.each do |flag| -%>
+<%="#{flag}=\'#{@java_flags[flag]}\'"%>
+ <%-end%> 
+<%end%>
+
+<% if @custom %>
+#Custom config
+ <%- @custom.keys.sort.each do |flag| -%>
+<%="#{flag}=\'#{@custom[flag]}\'"%>
+ <%-end%> 
+<%end%>
+
+<% if @limits %>
+#Limits
+ <%- @limits.keys.sort.each do |flag| -%>
+<%="#{flag}=\'#{@limits[flag]}\'"%>
+ <%-end%> 
+<%end%>
+
+<% if @drivers %>
+#Drivers config
+ <%- index = 0
+if (@drivers["location_path"]) then
+    @drivers["location_path"].each do | driver |
+      if index == 0 then
+        suffix = ""
+      else
+        suffix = "_#{index}"
+      end -%>
+<%= "DRIVER_PATH#{suffix}" %>=<%= "#{driver}" %>
+    <%- index += 1
+    end 
+end 
+if (@drivers["location_url"]) then
+    @drivers["location_url"].each do | driver |
+        tarball_location_splitted = driver.split('/')
+        tarball_file_name = tarball_location_splitted[-1]
+      if index == 0 then
+        suffix = ""
+      else
+        suffix = "_#{index}"
+      end -%>
+<%= "DRIVER_PATH#{suffix}" %>=<%= "#{@work_dir}/#{tarball_file_name}" %>
+    <%- index += 1
+    end 
+end 
+-%>
+DRIVERS_COUNT="<%= index %>"
+<%end%>
+
+#ServerID
+<%if @serverID %>
+SERVER_ID="<%=@serverID%>"
+<%end%>
+
+#License
+<%if @license %>
+LICENSE="<%=@license%>"
+<%end%>
+
+#Version
+<%if @version %>
+VERSION="<%=@version%>"
+<%end%>
+
+
+#Early access
+<%if @early_access %>
+EARLY_ACCESS="<%=@early_access%>"
+<%end%>
+
+#Clustered
+<%if @clustered %>
+CLUSTERED="<%=@clustered%>"
+<%end%>
+
+# manual manual_service_script script
+<% if @manual_service_script != "false" and @manual_service_script != false %>
+MANUAL_SERVICE=1
+<% end %>
+
+<% if @restore_system_path %>
+BACKUP_SYSTEM_LOCATION="<%=@restore_system_path%>"
+<%end%>
+
+<%if @restore_databases%>
+BACKUP_DATABASE_RESOURCE_COUNT="<%= @restore_databases.length %>"
+<%- index = 0
+@restore_databases.each do | conn |
+  if index == 0 then
+    suffix = ""
+  else
+    suffix = "_#{index}"
+  end
+  conn.keys.sort.each do |k| -%>
+<%= "#{k.upcase}#{suffix}" %>=<%= "#{conn[k]}" %>
+<% end %>
+<%- index += 1
+end -%>
+<%end%>

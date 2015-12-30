@@ -1,0 +1,9 @@
+<%= @syslog_destination %> {
+        missingok
+        <% if @logrorate_compress != "false" and @logrorate_compress != false %>
+        compress
+        <% end %>
+        notifempty
+        <%= @logrotate_rotate_period %>
+        rotate <%= @logrotate_keep %>
+}

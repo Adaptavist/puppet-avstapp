@@ -1,0 +1,5 @@
+# Log avst-app generated log messages to file
+if <%= @rsyslog_filter %> then <%= @syslog_destination %>
+
+# make sure the messages are NOT logged anywhere else
+& ~

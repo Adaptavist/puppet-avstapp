@@ -1,0 +1,27 @@
+---
+
+# Puppet managed config file for avst-wizard
+# 
+
+<%unless @avst_wizard_properties['license'] or @base_url or @avst_wizard_properties['instance_name'] or @avst_wizard_properties['database_url'] or @avst_wizard_properties['database_user'] or @avst_wizard_properties['database_pass'] or @avst_wizard_properties['admin_user'] or @avst_wizard_properties['admin_full_name'] or @avst_wizard_properties['database_name'] or @avst_wizard_properties['admin_email'] or @avst_wizard_properties['admin_pass'] %>
+    <% fail "Required wizard params not present. Make sure database_url, database_name, database_user, database_pass, admin_user, admin_full_name, admin_email, admin_pass, instance_name are present."%>
+<%end%>
+## Jira
+base_url: <%=@base_url%>
+<%@avst_wizard_properties.keys.each do |k|  -%>
+<%if k == 'license'-%>
+license: |
+<%@avst_wizard_properties[k].split("\n").each do |l|-%>
+    <%="#{l}"%>
+<%-end-%>
+<%-else-%>
+<%="#{k}: #{@avst_wizard_properties[k]}"%>
+<%-end-%>
+<%-end-%>
+
+<%unless @avst_wizard_properties['mail_server_user']-%>
+mail_server_user: admin
+<%-end-%>
+<%unless @avst_wizard_properties['mail_server_pass']-%>
+mail_server_pass: admin
+<%-end-%>
