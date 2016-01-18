@@ -1,4 +1,5 @@
 # Avstapp Module
+[![Build Status](https://travis-ci.org/Adaptavist/puppet-avstapp.svg?branch=master)](https://travis-ci.org/Adaptavist/puppet-avstapp)
 
 ## Overview
 
