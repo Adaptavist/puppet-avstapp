@@ -101,7 +101,7 @@ define avstapp::instance(
     $base_url                     = "http://${::fqdn}${context_path}",
     $avst_wizard_properties       = {},
     $is_mirror                    = false,
-    $limits                       = {},
+    $limits                       = { 'SERVICE_MAX_OPEN_FILES' => '8196'},
 ) {
 
 
