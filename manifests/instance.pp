@@ -296,11 +296,12 @@ define avstapp::instance(
 
             # run avst-app modify
             exec { "modify_application_with_avstapp_${name}" :
-                command   => "avst-app --debug ${name} modify",
-                logoutput => on_failure,
-                cwd       => $instance_dir,
-                onlyif    => [ "test -f ${instance_dir}/.state" ],
-                require   => [Exec["rename_${instance_dir}/avst-app.cfg.sh_tmp_as_it_is_not_possible_to_create_two_file_resources_for_same_file"]],
+                command     => "avst-app --debug ${name} modify",
+                logoutput   => on_failure,
+                cwd         => $instance_dir,
+                refreshonly => true,
+                onlyif      => [ "test -f ${instance_dir}/.state" ],
+                require     => [Exec["rename_${instance_dir}/avst-app.cfg.sh_tmp_as_it_is_not_possible_to_create_two_file_resources_for_same_file"]],
             }
         } else {
             # in case application is already installed manually
@@ -322,10 +323,11 @@ define avstapp::instance(
 
             # run avst-app modify
             exec { "modify_application_with_avstapp_${name}" :
-                command   => "avst-app --debug ${name} modify",
-                logoutput => on_failure,
-                cwd       => $instance_dir,
-                require   => [Exec["install_application_with_avstapp_${name}"], Exec["prepare_application_with_avstapp_${name}"]],
+                command     => "avst-app --debug ${name} modify",
+                logoutput   => on_failure,
+                cwd         => $instance_dir,
+                refreshonly => true,
+                require     => [Exec["install_application_with_avstapp_${name}"], Exec["prepare_application_with_avstapp_${name}"]],
             }
         }
 
