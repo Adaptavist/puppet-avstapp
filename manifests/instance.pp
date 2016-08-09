@@ -214,7 +214,7 @@ define avstapp::instance(
                 notify { $version :
                     message => "Found ${version} != ${parsed_version}",
                 }
-                fail('version provided does not match version of tarball')
+                fail("version provided (${version}) does not match version of tarball (${parsed_version})")
             }
         }
 
