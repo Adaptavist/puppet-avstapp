@@ -1,6 +1,7 @@
 define avstapp::download_tar_file(
-    $work_dir = '/tmp',
-    $file_path = undef,
+    $work_dir         = '/tmp',
+    $file_path        = undef,
+    $download_command = "curl -O -L"
 ){
     if ($file_path) {
         $real_file_path = $file_path
@@ -12,7 +13,7 @@ define avstapp::download_tar_file(
 
     exec { $name :
         cwd     => $work_dir,
-        command => "wget ${name}",
+        command => "${download_command} ${name}",
         unless  => ["test -f ${real_file_path}"],
         timeout => 3600,
     }
