@@ -1,7 +1,7 @@
 define avstapp::download_tar_file(
     $work_dir         = '/tmp',
     $file_path        = undef,
-    $download_command = "curl -O -L"
+    $download_command = 'curl -O -L'
 ){
     if ($file_path) {
         $real_file_path = $file_path
