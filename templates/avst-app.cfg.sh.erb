@@ -95,10 +95,9 @@ LICENSE="<%=@license%>"
 <%end%>
 
 #Version
-<%if @version %>
-VERSION="<%=@version%>"
+<%if @parsed_version or @version %>
+VERSION="<%= @parsed_version ? @parsed_version : @version%>"
 <%end%>
-
 
 #Early access
 <%if @early_access %>
