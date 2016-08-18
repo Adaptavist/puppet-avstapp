@@ -137,9 +137,21 @@ define avstapp::instance(
             $product_source = $bamboo_server_url
         } elsif ( $tarball_location_file ) {
             $product_source = $tarball_location_file
-        } elsif ( $tarball_location_url ) {
+        } else {
+            if ($tarball_location_url == undef or $tarball_location_url == '' or $tarball_location_url == false or $tarball_location_url == 'false') {
+                notify { 'trying to determine download url':
+                        message  => "Trying to find download url location for ${application_type} version ${version}"
+                }
+                $real_tarball_location_url = find_download_url($application_type, $version)
+            } else {
+                $real_tarball_location_url = $tarball_location_url
+            }
+
+            if ($real_tarball_location_url and $real_tarball_location_url == 'false') {
+                fail("tarball_location_url not provided and detection of download url failed to find url for product ${application_type} version ${version}")
+            }
             # in case url provided for product tar download it and place to /tmp
-            $tarball_location_splitted = split($tarball_location_url, '/')
+            $tarball_location_splitted = split($real_tarball_location_url, '/')
             $tarball_file_name = $tarball_location_splitted[-1]
             # ensure folder in workdir for installation tarball is present
             if (!defined(File[$work_dir])) {
@@ -162,15 +174,13 @@ define avstapp::instance(
             }
 
             $product_source = "${$work_dir}/${tarball_file_name}"
-            if ( !defined(Avstapp::Download_tar_file[$tarball_location_url]) ) {
-                avstapp::download_tar_file{ $tarball_location_url :
+            if ( !defined(Avstapp::Download_tar_file[$real_tarball_location_url]) ) {
+                avstapp::download_tar_file{ $real_tarball_location_url :
                     work_dir  => $work_dir,
                     file_path => $product_source,
                     before    => File["${instance_dir}/avst-app.cfg.sh"],
                 }
             }
-        } else {
-            fail('You must provide tarball_location_file or tarball_location_url or bamboo_server_url')
         }
 
         # in case url provided for drivers download it
@@ -182,6 +192,16 @@ define avstapp::instance(
                         before   => File["${instance_dir}/avst-app.cfg.sh"],
                     }
                 }
+            }
+        }
+
+        unless ( $is_bamboo_agent ) {
+            $parsed_version = parse_version($application_type, $product_source, str2bool($early_access))
+            if ( $version and $version != 'current' and $parsed_version != $version ) {
+                notify { $version :
+                    message => "Found ${version} != ${parsed_version}",
+                }
+                fail("version provided (${version}) does not match version of tarball (${parsed_version})")
             }
         }
 
@@ -205,16 +225,6 @@ define avstapp::instance(
                 group   => $avstapp::hosting_group,
                 mode    => '0644',
                 before  => Exec["modify_application_with_avstapp_${name}"]
-            }
-        }
-
-        unless ( $is_bamboo_agent ) {
-            $parsed_version = parse_version($application_type, $product_source, str2bool($early_access))
-            if ( $version and $parsed_version != $version ) {
-                notify { $version :
-                    message => "Found ${version} != ${parsed_version}",
-                }
-                fail('version provided does not match version of tarball')
             }
         }
 
@@ -415,7 +425,7 @@ define avstapp::instance(
 
                 # # pass wizard with avst-wizard
                 exec { "complete_service_instalation_with_avst_wizard_${name}" :
-                    command   => "${avst_wizard_command_prefix} 'avst-wizard --custom_config ${instance_dir}/avst-wizard.yaml --product_type ${application_type} --base_url ${base_url} --version ${version} >> /var/log/avst_wizard.log' ",
+                    command   => "${avst_wizard_command_prefix} 'avst-wizard --custom_config ${instance_dir}/avst-wizard.yaml --product_type ${application_type} --base_url ${base_url} --version ${parsed_version} >> /var/log/avst_wizard.log' ",
                     logoutput => on_failure,
                     cwd       => $instance_dir,
                     timeout   => 3600,
