@@ -86,7 +86,7 @@ define avstapp::instance(
     $work_dir                     = '/tmp/avstapp_resources',
     $clean_tarballs               = true, #in caes there are multiple instances of the same app type disable this
     $license                      = undef,
-    $serverID                     = undef,
+    $server_id                    = undef,
     $early_access                 = false,
     $clustered                    = undef, # set to 1 if clustered
     $shared_dir                   = undef, # must be set if clustered

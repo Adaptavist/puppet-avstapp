@@ -38,6 +38,7 @@ module Puppet::Parser::Functions
                 response = Net::HTTP.get(uri)
                 # parse urls from json
                 JSON.parse(response.sub("downloads(", "")[0...-1]).each do |entry|
+                    next unless entry['zipUrl'] and entry['description'] and entry["version"]
                     next unless entry['zipUrl'].end_with? file_type
                     next if entry['description'].downcase.include? "war" 
                     if looking_for_version == "current" or entry["version"] == looking_for_version
