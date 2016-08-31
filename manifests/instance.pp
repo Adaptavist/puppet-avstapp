@@ -87,7 +87,7 @@ define avstapp::instance(
     $clean_tarballs               = true, #in caes there are multiple instances of the same app type disable this
     $license                      = undef,
     $server_id                    = undef,
-    $early_access                 = false,
+    $early_access                 = false, # left here for backwards compatibility, it is not used, for early access use 'eap' as version
     $clustered                    = undef, # set to 1 if clustered
     $shared_dir                   = undef, # must be set if clustered
     $is_master                    = undef, # set to 1 in case instance is master, slave set to undef or 0
@@ -196,8 +196,11 @@ define avstapp::instance(
         }
 
         unless ( $is_bamboo_agent ) {
-            $parsed_version = parse_version($application_type, $product_source, str2bool($early_access))
-            if ( $version and $version != 'current' and $parsed_version != $version ) {
+            if ($version == 'eap'){
+                $real_early_access = 'true'
+            }
+            $parsed_version = parse_version($application_type, $product_source, str2bool($real_early_access))
+            if ( $version and $version != 'current' and $version != 'eap' and $parsed_version != $version ) {
                 notify { $version :
                     message => "Found ${version} != ${parsed_version}",
                 }
