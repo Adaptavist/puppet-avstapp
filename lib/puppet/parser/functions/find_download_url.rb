@@ -8,14 +8,9 @@ module Puppet::Parser::Functions
         
         product = args[0]
         looking_for_version = args[1]    
-    
-        version_types = ["current", "archived"]
-        if looking_for_version == "current"
-            version_types = ["current"]
-        end
 
         file_type = ".tar.gz"
-
+        required_description = nil
         case product
         when "jira"
             product_names = ["jira-software", "jira"]
@@ -29,6 +24,17 @@ module Puppet::Parser::Functions
             product_names = [product]
         end
 
+        version_types = ["current", "archived"]
+        if looking_for_version == "current"
+            version_types = ["current"]
+        elsif looking_for_version == "eap"
+            version_types = ["eap"]
+            if product == "jira"
+                required_description = "software"
+                product_names = ["jira"]
+            end
+        end
+
         found = false
         version_types.each do |version_type|
             next if found
@@ -36,18 +42,24 @@ module Puppet::Parser::Functions
                 url = "https://my.atlassian.com/download/feeds/#{version_type}/#{product_name}.json" 
                 uri = URI(url)
                 response = Net::HTTP.get(uri)
-                # parse urls from json
-                JSON.parse(response.sub("downloads(", "")[0...-1]).each do |entry|
-                    next unless entry['zipUrl'] and entry['description'] and entry["version"]
-                    next unless entry['zipUrl'].end_with? file_type
-                    next if entry['description'].downcase.include? "war" 
-                    if looking_for_version == "current" or entry["version"] == looking_for_version
-                        found = entry["zipUrl"] 
+                begin
+                    # parse urls from json
+                    JSON.parse(response.sub("downloads(", "")[0...-1]).each do |entry|
+                        next unless entry['zipUrl'] and entry['description'] and entry["version"]
+                        next unless entry['zipUrl'].end_with? file_type
+                        next if entry['description'].include? "WAR"
+                        next if required_description and !entry['description'].downcase.include? required_description
+                        if looking_for_version == "current" or looking_for_version == "eap" or entry["version"] == looking_for_version
+                            found = entry["zipUrl"] 
+                            break
+                        end
+                    end
+                    if found
                         break
                     end
-                end
-                if found
-                    break
+                rescue Exception => e
+                    puts "#{url} did not return correct data; #{response.inspect}"
+                    puts "Exception thrown #{e.inspect}"
                 end
             end
         end
