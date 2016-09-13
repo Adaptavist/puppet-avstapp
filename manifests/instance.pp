@@ -96,6 +96,7 @@ define avstapp::instance(
     $class_dependencies           = [],
     $custom_service_provider      = undef,
     $avst_wizard                  = true,
+    $wizard_use_tomcat_port       = false,
     $package_source_repo          = 'https://rubygems.org',
     $avst_wizard_command_prefix   = 'bash --login -c', #ensures that rvm is loaded so ruby and installed gems are available
     $base_url                     = "http://${::fqdn}${context_path}",
@@ -425,10 +426,17 @@ define avstapp::instance(
                     $wizard_deps = [ File["${instance_dir}/avst-wizard.yaml"], Service[$name] ]
                 }
 
+                if ($wizard_use_tomcat_port and $wizard_use_tomcat_port != 'false' and $wizard_use_tomcat_port != false ) {
+                    $wizard_tomcat_port_switch = "--use_tomcat_port ${wizard_use_tomcat_port}"
+                    $wizard_base_url = "${::fqdn}${context_path}"
+                } else {
+                    $wizard_tomcat_port_switch = ''
+                    $wizard_base_url = $base_url
+                }
 
                 # # pass wizard with avst-wizard
                 exec { "complete_service_instalation_with_avst_wizard_${name}" :
-                    command   => "${avst_wizard_command_prefix} 'avst-wizard --custom_config ${instance_dir}/avst-wizard.yaml --product_type ${application_type} --base_url ${base_url} --version ${parsed_version} >> /var/log/avst_wizard.log' ",
+                    command   => "${avst_wizard_command_prefix} 'avst-wizard --custom_config ${instance_dir}/avst-wizard.yaml --product_type ${application_type} --base_url ${wizard_base_url} ${wizard_tomcat_port_switch} --version ${parsed_version} >> /var/log/avst_wizard.log' ",
                     logoutput => on_failure,
                     cwd       => $instance_dir,
                     timeout   => 3600,
