@@ -140,7 +140,7 @@ define avstapp::instance(
             $product_source = $tarball_location_file
         } else {
             if ($tarball_location_url == undef or $tarball_location_url == '' or $tarball_location_url == false or $tarball_location_url == 'false') {
-                notify { 'trying to determine download url':
+                notify { "${name} trying to determine download url":
                         message  => "Trying to find download url location for ${application_type} version ${version}"
                 }
                 $real_tarball_location_url = find_download_url($application_type, $version)
