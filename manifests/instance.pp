@@ -103,6 +103,8 @@ define avstapp::instance(
     $avst_wizard_properties       = {},
     $is_mirror                    = false,
     $limits                       = { 'SERVICE_MAX_OPEN_FILES' => '8196'},
+    $agent_uuid                   = '',
+    $agent_security_token         = '',
 ) {
 
 
@@ -209,6 +211,12 @@ define avstapp::instance(
             }
         }
 
+        if ( $is_bamboo_agent and $agent_security_token != '' ) {
+            $custom_agent_flags="-t ${agent_security_token}"
+        } else {
+            $custom_agent_flags=''
+        }
+
         # Prepare config for avstapp application
         file { "${instance_dir}/avst-app.cfg.sh" :
             ensure  => file,
@@ -222,6 +230,14 @@ define avstapp::instance(
 
         # Prepare Bamboo Agent capabilities
         if ( $is_bamboo_agent ) {
+            file { "${instance_dir}/home/uuid-temp.properties":
+                ensure  => file,
+                content => inline_template("agentUuid=${agent_uuid}"),
+                owner   => $avstapp::hosting_user,
+                group   => $avstapp::hosting_group,
+                mode    => '0644',
+                require => Exec["install_application_with_avstapp_${name}"],
+            } ->
             file { "${instance_dir}/bamboo-capabilities.properties":
                 ensure  => file,
                 content => template("${module_name}/bamboo-capabilities.properties.erb"),

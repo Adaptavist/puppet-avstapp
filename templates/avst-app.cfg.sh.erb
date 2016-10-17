@@ -46,6 +46,11 @@ end -%>
  <%-end%> 
 <%end%>
 
+<% if @custom_agent_flags %>
+#Custom agent run flags
+CUSTOM_AGENT_FLAGS="<%=@custom_agent_flags%>"
+<%end%>
+
 <% if @limits %>
 #Limits
  <%- @limits.keys.sort.each do |flag| -%>
