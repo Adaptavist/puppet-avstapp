@@ -211,12 +211,6 @@ define avstapp::instance(
             }
         }
 
-        if ( $is_bamboo_agent and $agent_security_token != '' ) {
-            $custom_agent_flags="-t ${agent_security_token}"
-        } else {
-            $custom_agent_flags=''
-        }
-
         # Prepare config for avstapp application
         file { "${instance_dir}/avst-app.cfg.sh" :
             ensure  => file,

@@ -46,9 +46,14 @@ end -%>
  <%-end%> 
 <%end%>
 
-<% if @custom_agent_flags %>
-#Custom agent run flags
-CUSTOM_AGENT_FLAGS="<%=@custom_agent_flags%>"
+<% if @agent_security_token %>
+#Agent security token for bamboo agents
+AGENT_SECURITY_TOKEN="<%=@agent_security_token%>"
+<%end%>
+
+<% if @bamboo_server_url %>
+#Bamboo server url for bamboo agents
+BAMBOO_SERVER="<%=@bamboo_server_url%>"
 <%end%>
 
 <% if @limits %>
