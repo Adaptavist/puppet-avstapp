@@ -46,6 +46,16 @@ end -%>
  <%-end%> 
 <%end%>
 
+<% if @agent_security_token %>
+#Agent security token for bamboo agents
+AGENT_SECURITY_TOKEN="<%=@agent_security_token%>"
+<%end%>
+
+<% if @bamboo_server_url %>
+#Bamboo server url for bamboo agents
+BAMBOO_SERVER="<%=@bamboo_server_url%>"
+<%end%>
+
 <% if @limits %>
 #Limits
  <%- @limits.keys.sort.each do |flag| -%>
