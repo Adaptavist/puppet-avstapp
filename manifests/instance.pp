@@ -232,7 +232,7 @@ define avstapp::instance(
                 mode    => '0644',
                 require => Exec["install_application_with_avstapp_${name}"],
             } ->
-            file { "${instance_dir}/bamboo-capabilities.properties":
+            file { "${instance_dir}/home/bin/bamboo-capabilities.properties":
                 ensure  => file,
                 content => template("${module_name}/bamboo-capabilities.properties.erb"),
                 owner   => $avstapp::hosting_user,
