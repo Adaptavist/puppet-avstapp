@@ -1,4 +1,7 @@
-class avstapp::dependencies {
+class avstapp::dependencies(
+    $soft_nofile       = '1024',
+    $hard_nofile       = '8192',
+) {
 
     # Installs Oracle Java
     include packages_repos
@@ -24,10 +27,10 @@ class avstapp::dependencies {
     # setup filehandle limits
     limits::fragment {
         '*/soft/nofile':
-            value => '1024'
+            value => $soft_nofile
         ;
         '*/hard/nofile':
-            value => '8192'
+            value => $hard_nofile
         ;
     }
 }
