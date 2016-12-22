@@ -22,11 +22,16 @@ class avstapp(
     $share_directory   = '/usr/share/avst-app',
     $hosting_user      = 'root',
     $hosting_group     = 'root',
+    $soft_nofile       = '1024',
+    $hard_nofile       = '8192',
     $conf = {},
 ){
 
     class { 'avstapp::syslog': } ->
-    class { 'avstapp::dependencies': } ->
+    class { 'avstapp::dependencies':
+        soft_nofile => $soft_nofile,
+        hard_nofile => $hard_nofile
+    } ->
     Class['avstapp']
 
     if $::host != undef {
