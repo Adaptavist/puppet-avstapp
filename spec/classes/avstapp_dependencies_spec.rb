@@ -4,8 +4,8 @@ base_directory = '/opt'
 cust_base_directory = '/tmp'
 hosting_user      = 'hosting'
 hosting_group     = 'hosting'
-soft_nofile = 2048
-hard_nofile = 16384
+soft_nofile = '2048'
+hard_nofile = '16384'
 host = { 'avstapp::conf' => {} }
 conf = {}
 custom_host = { 'avstapp::conf' => {
@@ -33,7 +33,7 @@ describe 'avstapp::dependencies', :type => 'class' do
     }}
 
     it do
-      should contain_oracle_java
+      should contain_class('oracle_java')
       should contain_limits__fragment('*/soft/nofile').with(
         'value' => soft_nofile
       )
@@ -55,11 +55,12 @@ describe 'avstapp::dependencies', :type => 'class' do
       :osfamily => 'RedHat',
       :operatingsystem => 'RedHat',
       :operatingsystemrelease => '6.5',
+      :operatingsystemmajrelease => '6',
       :host => host,
     }}
 
     it do
-      should contain_oracle_java
+      should contain_class('oracle_java')
       should contain_limits__fragment('*/soft/nofile').with(
         'value' => soft_nofile
       )

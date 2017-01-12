@@ -12,6 +12,7 @@ describe 'avstapp::syslog', :type => 'class' do
     let(:facts){{
       :osfamily => 'RedHat',
       :operatingsystemrelease => '7.1',
+      :operatingsystemmajrelease => '7',
       :operatingsystem => 'RedHat'
     }}
     let(:params){{
@@ -31,6 +32,7 @@ describe 'avstapp::syslog', :type => 'class' do
     let(:facts){{
       :osfamily => 'RedHat',
       :operatingsystemrelease => '7.1',
+      :operatingsystemmajrelease => '7',
       :operatingsystem => 'RedHat'
     }}
     let(:params){{
@@ -55,6 +57,7 @@ describe 'avstapp::syslog', :type => 'class' do
     let(:facts){{
       :osfamily => 'RedHat',
       :operatingsystemrelease => '7.1',
+      :operatingsystemmajrelease => '7',
       :operatingsystem => 'RedHat'
     }}
     let(:params){{
@@ -79,6 +82,7 @@ describe 'avstapp::syslog', :type => 'class' do
     let(:facts){{
       :osfamily => 'RedHat',
       :operatingsystemrelease => '7.1',
+      :operatingsystemmajrelease => '7',
       :operatingsystem => 'RedHat'
     }}
     let(:params){{
@@ -108,6 +112,7 @@ describe 'avstapp::syslog', :type => 'class' do
     let(:facts){{
       :osfamily => 'RedHat',
       :operatingsystemrelease => '7.1',
+      :operatingsystemmajrelease => '7',
       :operatingsystem => 'RedHat'
     }}
     let(:params){{

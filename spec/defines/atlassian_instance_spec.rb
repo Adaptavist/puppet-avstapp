@@ -30,7 +30,7 @@ let('title'){instance_name}
 	}}
 
     it do
-		should contain_avstapp
+		should contain_class('avstapp')
 		[instance_dir].each do |file_name|
 	    	should contain_file( file_name ).with(
 			    'ensure' => 'directory',
@@ -64,7 +64,7 @@ let('title'){instance_name}
 	}}
 
     it do
-		should contain_avstapp
+		should contain_class('avstapp')
 		[instance_dir].each do |file_name|
 	    	should contain_file( file_name ).with(
 			    'ensure' => 'directory',

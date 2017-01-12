@@ -1,5 +1,5 @@
 name 'adaptavist-avstapp'
-version '0.2.31'
+version '1.0.0'
 source 'https://github.com/Adaptavist/puppet-avstapp.git'
 author 'adaptavist'
 summary 'avstapp puppet module' 

@@ -8,7 +8,7 @@ class avstapp::dependencies(
     include oracle_java
 
     case $::osfamily {
-        RedHat: {
+        'RedHat': {
             package { ['apr-util', 'neon']:
                 ensure => installed
             }
@@ -16,7 +16,7 @@ class avstapp::dependencies(
                 ensure => installed,
             }
         }
-        Debian: {
+        'Debian': {
             package { 'libaugeas-ruby':
                 ensure => installed,
             }

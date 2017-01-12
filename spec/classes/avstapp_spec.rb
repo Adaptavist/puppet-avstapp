@@ -25,7 +25,7 @@ describe 'avstapp', :type => 'class' do
       :host => host,
     }}
     it do
-      should contain_oracle_java
+      should contain_class('oracle_java')
       should contain_file(base_directory).with(
           'ensure'  => 'directory',
           'owner'   => 'root',
@@ -55,7 +55,7 @@ describe 'avstapp', :type => 'class' do
       :host => custom_host,
     }}
     it do
-      should contain_oracle_java
+      should contain_class('oracle_java')
       should contain_file(cust_base_directory).with(
           'ensure'  => 'directory',
           'owner'   => 'root',
