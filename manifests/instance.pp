@@ -391,7 +391,7 @@ define avstapp::instance(
         if ( $custom_service_provider != undef ) {
             $service_provider = $custom_service_provider
         }
-        elsif ( $::osfamily == 'RedHat' and $::operatingsystemmajrelease >= 7 ) {
+        elsif ( $::osfamily == 'RedHat' and $::operatingsystemmajrelease >= '7' ) {
             $service_provider = 'systemd'
         }
         else {
