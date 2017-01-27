@@ -145,7 +145,7 @@ define avstapp::instance(
                 notify { "${name} trying to determine download url":
                         message  => "Trying to find download url location for ${application_type} version ${version}"
                 }
-                $real_tarball_location_url = find_download_url($application_type, $version)
+                $real_tarball_location_url = find_download_url($application_type, $version, $clustered)
             } else {
                 $real_tarball_location_url = $tarball_location_url
             }
