@@ -8,6 +8,7 @@ module Puppet::Parser::Functions
         
         product = args[0]
         looking_for_version = args[1]    
+        cluster = args[2]
 
         file_type = ".tar.gz"
         required_description = nil
@@ -22,6 +23,13 @@ module Puppet::Parser::Functions
             product_names = ["crucible"]
         else
             product_names = [product]
+        end
+
+        if cluster and cluster != ""
+            looking_for_version = "#{looking_for_version}-cluster"
+            clustered = true
+        else
+            clustered = false
         end
 
         version_types = ["current", "archived"]
@@ -47,6 +55,7 @@ module Puppet::Parser::Functions
                     JSON.parse(response.sub("downloads(", "")[0...-1]).each do |entry|
                         next unless entry['zipUrl'] and entry['description'] and entry["version"]
                         next unless entry['zipUrl'].end_with? file_type
+                        next if !clustered and entry['zipUrl'].include?("cluster")
                         next if entry['description'].include? "WAR"
                         next if required_description and !entry['description'].downcase.include? required_description
                         if looking_for_version == "current" or looking_for_version == "eap" or entry["version"] == looking_for_version
