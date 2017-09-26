@@ -27,6 +27,7 @@ describe 'avstapp::dependencies', :type => 'class' do
     let(:facts){{
       :osfamily => 'Debian',
       :lsbdistid => 'Ubuntu',
+      :operatingsystem => 'Ubuntu',
       :lsbdistcodename => 'precise',
       :host => host,
 
@@ -53,6 +54,8 @@ describe 'avstapp::dependencies', :type => 'class' do
     }}
     let(:facts){{
       :osfamily => 'RedHat',
+      :kernel => 'Linux',
+      :os => {:family => 'RedHat', :kernel => 'Linux'},
       :operatingsystem => 'RedHat',
       :operatingsystemrelease => '6.5',
       :operatingsystemmajrelease => '6',

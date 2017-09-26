@@ -21,6 +21,7 @@ describe 'avstapp', :type => 'class' do
     let(:facts){{
       :osfamily => 'Debian',
       :lsbdistid => 'Ubuntu',
+      :operatingsystem => 'Ubuntu',
       :lsbdistcodename => 'precise',
       :host => host,
     }}
@@ -48,12 +49,20 @@ describe 'avstapp', :type => 'class' do
       :hosting_group => hosting_group,
       :conf => conf, 
     }}
+
+    let (:pre_condition) do
+      ['user { "hosting": }', 'group { "hosting": }']
+    end
+
     let(:facts){{
       :osfamily => 'Debian',
       :lsbdistid => 'Ubuntu',
+      :operatingsystem => 'Ubuntu',
       :lsbdistcodename => 'precise',
       :host => custom_host,
     }}
+    
+    it { should compile }
     it do
       should contain_class('oracle_java')
       should contain_file(cust_base_directory).with(
@@ -70,7 +79,8 @@ describe 'avstapp', :type => 'class' do
       ).with_content(/BASE_DIR=#{cust_base_directory}/)
       .with_content(/INSTANCE_USER=#{hosting_user}/)
 
-      should contain_avstapp__instance('crowd-stg1')
+      is_expected.to contain_avstapp__instance('crowd-stg1')
+      
     end
   end
 end

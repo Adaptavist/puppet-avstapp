@@ -19,9 +19,14 @@ describe 'avstapp::instance', :type => 'define' do
 let('title'){instance_name}
 
   context "Should create dirs, download tar from url, extract tar and prepare avst-app.conf.sh " do
+  	let (:pre_condition) do
+      ['user { "root": }',
+      'group { "root": }']
+    end
 	let(:facts){{
 		:osfamily => 'Debian',
 		:lsbdistid => 'Ubuntu',
+        :operatingsystem => 'Ubuntu',
 		:lsbdistcodename => 'precise',
 		:host => host,
 	}}
@@ -52,10 +57,15 @@ let('title'){instance_name}
   end
 
   context "Should create dirs, extract tar, prepare avst-app.conf.sh when tar_path is provided" do
+  	let (:pre_condition) do
+      ['user { "root": }',
+      'group { "root": }']
+    end
 
 	let(:facts){{
 		:osfamily => 'Debian',
 		:lsbdistid => 'Ubuntu',
+      	:operatingsystem => 'Ubuntu',
 		:lsbdistcodename => 'precise',
 		:host => host,
 	}}

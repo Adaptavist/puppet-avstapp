@@ -111,6 +111,9 @@ define avstapp::instance(
     unless empty($class_dependencies) {
         require $class_dependencies
     }
+
+    Exec { path => '/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin' }
+
     include avstapp
 
     notify { $name :
@@ -231,8 +234,7 @@ define avstapp::instance(
                 group   => $avstapp::hosting_group,
                 mode    => '0644',
                 require => Exec["install_application_with_avstapp_${name}"],
-            } ->
-            file { "${instance_dir}/home/bin/bamboo-capabilities.properties":
+            } -> file { "${instance_dir}/home/bin/bamboo-capabilities.properties":
                 ensure  => file,
                 content => template("${module_name}/bamboo-capabilities.properties.erb"),
                 owner   => $avstapp::hosting_user,
