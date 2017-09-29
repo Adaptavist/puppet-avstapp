@@ -105,6 +105,9 @@ define avstapp::instance(
     $limits                       = { 'SERVICE_MAX_OPEN_FILES' => '8196'},
     $agent_uuid                   = '',
     $agent_security_token         = '',
+    $fecru_copy_from_old_install  = '1',
+    $fecru_copy_old_install_list  = '"var" "cache" "config.xml" "data"' 
+
 ) {
 
 
