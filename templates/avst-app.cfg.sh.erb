@@ -143,3 +143,13 @@ BACKUP_DATABASE_RESOURCE_COUNT="<%= @restore_databases.length %>"
 <%- index += 1
 end -%>
 <%end%>
+
+<%- if @application_type == "fisheye" -%>
+#Fisheye Copy Old Install Dir Items
+<%- if @fecru_copy_from_old_install -%>
+FECRU_COPY_FROM_OLD_INSTALL="<%=@fecru_copy_from_old_install%>"
+<%-end-%>
+<%- if @fecru_copy_old_install_list -%>
+FECRU_COPY_OLD_INSTALL_LIST=(<%=@fecru_copy_old_install_list%>)
+<%-end-%>
+<%-end-%>
