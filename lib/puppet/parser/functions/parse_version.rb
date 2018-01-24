@@ -23,7 +23,10 @@ module Puppet::Parser::Functions
             end
             # Jira 7.1.9 only has jira-software-version in the download URL not jira-version
             if (filename.include? "jira-software-")
-                product_to_check="jira-software"
+                product_to_check="atlassian-jira-software"
+            end
+            if (filename.include? "jira-core-")
+                product_to_check="atlassian-jira-core"
             end
             # all other avstapp supported products are in format path/something-<product>-<version>.tar.gz
             if (early_access != nil && early_access)
