@@ -22,6 +22,7 @@ let('title'){instance_name}
 	let(:facts){{
 		:osfamily => 'Debian',
 		:lsbdistid => 'Ubuntu',
+        :lsbdistrelease  => '12.04',
 		:lsbdistcodename => 'precise',
 		:host => host,
 	}}
@@ -53,12 +54,15 @@ let('title'){instance_name}
 
   context "Should create dirs, extract tar, prepare avst-app.conf.sh when tar_path is provided" do
 
-	let(:facts){{
-		:osfamily => 'Debian',
-		:lsbdistid => 'Ubuntu',
-		:lsbdistcodename => 'precise',
-		:host => host,
-	}}
+	let :facts do
+      { :osfamily        => 'Debian',
+        :lsbdistcodename => 'precise',
+        :lsbdistid       => 'ubuntu',
+        :lsbdistrelease  => '12.04',
+        :puppetversion   => Puppet.version,
+        :host 			 => host
+      }
+    end
 	let(:params){{
 		:tarball_location_file => tarball_location_file,
 	}}

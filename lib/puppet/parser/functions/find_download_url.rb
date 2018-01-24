@@ -13,8 +13,6 @@ module Puppet::Parser::Functions
         file_type = ".tar.gz"
         required_description = nil
         case product
-        when "jira"
-            product_names = ["jira-software", "jira"]
         when "bitbucket"
             # all versions of stash/bitbucket server are under .../stash.json
             product_names = ["stash"]

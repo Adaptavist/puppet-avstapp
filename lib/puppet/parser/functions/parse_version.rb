@@ -36,7 +36,7 @@ module Puppet::Parser::Functions
         end
 
         # if we are workign on jira-software and the result has one or more "-" in it (pre 7.1.9) onyl return upto the first "-"
-        if (product_to_check == "jira-software" and splitted.sub(packaging_type, "").include? "-")
+        if ((product_to_check == "jira-software" or product_to_check == "jira-core") and splitted.sub(packaging_type, "").include? "-")
             splitted.sub(packaging_type, "").split("-")[0]
         else
             splitted.sub(packaging_type, "")
