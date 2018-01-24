@@ -13,6 +13,9 @@ module Puppet::Parser::Functions
         file_type = ".tar.gz"
         required_description = nil
         case product
+        when "jira"
+            # jira works only for versions <6.4.14 if not found get software :)
+            product_names = ["jira", "jira-software"]
         when "bitbucket"
             # all versions of stash/bitbucket server are under .../stash.json
             product_names = ["stash"]
