@@ -117,12 +117,6 @@ define avstapp::instance(
         message => "Installing instance: ${name}"
     }
 
-    # $application_breed = "case"
-    # $application_breed = case $application_type {
-    #     'jira-servicedesk', 'jira-software', 'jira-core':  { 'jira' }
-    #     default                                         : { "${application_type}" }
-    # }
-
     $application_breed = $application_type ? {
         'jira-servicedesk' => 'jira',
         'jira-software'    => 'jira',
