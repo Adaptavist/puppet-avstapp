@@ -1,7 +1,13 @@
 fixtures:
   repositories:
+    archive:
+      repo: "https://github.com/Adaptavist/puppet-archive"
+    java:
+      repo: "https://github.com/Adaptavist/puppet-java"
+      ref: '1.6.0'
     oracle_java:
       repo: 'https://github.com/Adaptavist/puppet-oracle_java.git'
+      ref: '1.0.0'
     limits:
       repo: 'https://github.com/Adaptavist/puppet-limits'
     stdlib:
@@ -10,7 +16,6 @@ fixtures:
       repo: 'https://github.com/Adaptavist/puppet-packages_repos.git'
     apt:
       repo: 'https://github.com/Adaptavist/puppet-apt'
-      ref: '1.8.0'
     yum:
       repo: 'https://github.com/Adaptavist/puppet-yum'
     puppi:

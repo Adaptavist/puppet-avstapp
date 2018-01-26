@@ -27,12 +27,10 @@ class avstapp(
     $conf = {},
 ){
 
-    class { 'avstapp::syslog': } ->
-    class { 'avstapp::dependencies':
+    class { 'avstapp::syslog': } -> class { 'avstapp::dependencies':
         soft_nofile => $soft_nofile,
         hard_nofile => $hard_nofile
-    } ->
-    Class['avstapp']
+    } -> Class['avstapp']
 
     if $::host != undef {
         # merge custom configuration with defaults

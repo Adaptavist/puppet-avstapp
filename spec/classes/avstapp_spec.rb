@@ -21,6 +21,7 @@ describe 'avstapp', :type => 'class' do
     let(:facts){{
       :osfamily => 'Debian',
       :lsbdistid => 'Ubuntu',
+      :lsbdistrelease  => '12.04',
       :lsbdistcodename => 'precise',
       :host => host,
     }}
@@ -51,6 +52,7 @@ describe 'avstapp', :type => 'class' do
     let(:facts){{
       :osfamily => 'Debian',
       :lsbdistid => 'Ubuntu',
+      :lsbdistrelease  => '12.04',
       :lsbdistcodename => 'precise',
       :host => custom_host,
     }}

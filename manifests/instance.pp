@@ -114,7 +114,14 @@ define avstapp::instance(
     include avstapp
 
     notify { $name :
-        message => "Installing instance: ${name}",
+        message => "Installing instance: ${name}"
+    }
+
+    $application_breed = $application_type ? {
+        'jira-servicedesk' => 'jira',
+        'jira-software'    => 'jira',
+        'jira-core'        => 'jira',
+        default            => $application_type
     }
 
     $instance_dir = "${avstapp::base_directory}/${name}"
@@ -231,8 +238,7 @@ define avstapp::instance(
                 group   => $avstapp::hosting_group,
                 mode    => '0644',
                 require => Exec["install_application_with_avstapp_${name}"],
-            } ->
-            file { "${instance_dir}/home/bin/bamboo-capabilities.properties":
+            } -> file { "${instance_dir}/home/bin/bamboo-capabilities.properties":
                 ensure  => file,
                 content => template("${module_name}/bamboo-capabilities.properties.erb"),
                 owner   => $avstapp::hosting_user,
@@ -261,9 +267,9 @@ define avstapp::instance(
         }
 
         # AvstApp has bamboo_agent, but the package is called bamboo-agent
-        $package_name = $application_type ? {
-            'bamboo_agent'    => 'avst-app-bamboo-agent',
-            $application_type => "avst-app-${application_type}"
+        $package_name = $application_breed ? {
+            'bamboo_agent' => 'avst-app-bamboo-agent',
+            default        => "avst-app-${application_breed}"
         }
 
         # get avst-app from apt repo
@@ -422,7 +428,7 @@ define avstapp::instance(
                 # Prepare config for avst-wizard application
                 file { "${instance_dir}/avst-wizard.yaml" :
                     ensure  => file,
-                    content => template("${module_name}/avst-wizard-templates/avst-wizard-${application_type}.yaml.erb"),
+                    content => template("${module_name}/avst-wizard-templates/avst-wizard-${application_breed}.yaml.erb"),
                     owner   => $avstapp::hosting_user,
                     group   => $avstapp::hosting_group,
                     mode    => '0644',
@@ -446,7 +452,7 @@ define avstapp::instance(
 
                 # # pass wizard with avst-wizard
                 exec { "complete_service_instalation_with_avst_wizard_${name}" :
-                    command   => "${avst_wizard_command_prefix} 'avst-wizard --custom_config ${instance_dir}/avst-wizard.yaml --product_type ${application_type} --base_url ${wizard_base_url} ${wizard_tomcat_port_switch} --version ${parsed_version} >> /var/log/avst_wizard.log' ",
+                    command   => "${avst_wizard_command_prefix} 'avst-wizard --custom_config ${instance_dir}/avst-wizard.yaml --product_type ${application_breed} --base_url ${wizard_base_url} ${wizard_tomcat_port_switch} --version ${parsed_version} >> /var/log/avst_wizard.log' ",
                     logoutput => on_failure,
                     cwd       => $instance_dir,
                     timeout   => 3600,
@@ -475,8 +481,8 @@ define avstapp::instance(
             require => File[$instance_dir],
         }
         # get avst-app from apt repo
-        if ( !defined(Package["avst-app-${application_type}"]) ) {
-            package { "avst-app-${application_type}" :
+        if ( !defined(Package["avst-app-${application_breed}"]) ) {
+            package { "avst-app-${application_breed}" :
                 ensure  => 'installed',
                 require => [File["${instance_dir}/avst-app.cfg.sh"], File["${instance_dir}/.state"]]
             }
@@ -487,7 +493,7 @@ define avstapp::instance(
             command   => "avst-app --debug ${name} install-service",
             logoutput => on_failure,
             cwd       => $instance_dir,
-            require   => [File["${instance_dir}/avst-app.cfg.sh"], File["${instance_dir}/.state"], Package["avst-app-${application_type}"]],
+            require   => [File["${instance_dir}/avst-app.cfg.sh"], File["${instance_dir}/.state"], Package["avst-app-${application_breed}"]],
         }
 
     }
