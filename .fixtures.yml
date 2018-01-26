@@ -4,8 +4,10 @@ fixtures:
       repo: "https://github.com/Adaptavist/puppet-archive"
     java:
       repo: "https://github.com/Adaptavist/puppet-java"
+      ref: '1.6.0'
     oracle_java:
       repo: 'https://github.com/Adaptavist/puppet-oracle_java.git'
+      ref: '1.0.0'
     limits:
       repo: 'https://github.com/Adaptavist/puppet-limits'
     stdlib:
