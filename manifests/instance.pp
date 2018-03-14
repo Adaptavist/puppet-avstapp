@@ -84,6 +84,7 @@ define avstapp::instance(
     $custom                       = {},
     $capabilities                 = {},
     $work_dir                     = '/tmp/avstapp_resources',
+    $drivers_dir                  = '',
     $clean_tarballs               = true, #in caes there are multiple instances of the same app type disable this
     $license                      = undef,
     $server_id                    = undef,
@@ -195,10 +196,15 @@ define avstapp::instance(
 
         # in case url provided for drivers download it
         if ( $drivers ) {
+            if ($drivers_dir == '') {
+                $real_driver_dir = $work_dir
+            } else {
+                $real_driver_dir = $drivers_dir
+            }
             if ( $drivers["location_url"] ) {
                 if ( !defined(Avstapp::Download_tar_file[$drivers['location_url']]) ) {
                     avstapp::download_tar_file { $drivers["location_url"] :
-                        work_dir => $work_dir,
+                        work_dir => $real_driver_dir,
                         before   => File["${instance_dir}/avst-app.cfg.sh"],
                     }
                 }
