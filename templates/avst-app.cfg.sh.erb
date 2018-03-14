@@ -86,7 +86,7 @@ if (@drivers["location_url"]) then
       else
         suffix = "_#{index}"
       end -%>
-<%= "DRIVER_PATH#{suffix}" %>=<%= "#{@work_dir}/#{tarball_file_name}" %>
+<%= "DRIVER_PATH#{suffix}" %>=<%= "#{@real_driver_dir}/#{tarball_file_name}" %>
     <%- index += 1
     end 
 end 
