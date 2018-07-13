@@ -7,7 +7,7 @@
     <% fail "Required wizard params not present. Make sure database_url, database_name, database_user, database_pass, admin_user, admin_full_name, admin_email, admin_pass, instance_name are present."%>
 <%end%>
 ## Jira
-base_url: <%=@base_url%>
+base_url: <%=@wizard_base_url%>
 <%@avst_wizard_properties.keys.each do |k|  -%>
 <%if k == 'license'-%>
 license: |
