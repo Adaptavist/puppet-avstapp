@@ -11,6 +11,7 @@ custom_host = { 'avstapp::conf' => {
             'version' => '2.6.7',
             'application_type' => 'crowd',
             'tarball_location_url' => 'www.example.com/crowd-2.6.7.tar.gz',
+            'avst_wizard' => false
             } 
           }
         }
