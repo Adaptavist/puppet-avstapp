@@ -431,17 +431,6 @@ define avstapp::instance(
                     }
                 }
 
-                # Prepare config for avst-wizard application
-                file { "${instance_dir}/avst-wizard.yaml" :
-                    ensure  => file,
-                    content => template("${module_name}/avst-wizard-templates/avst-wizard-${application_breed}.yaml.erb"),
-                    owner   => $avstapp::hosting_user,
-                    group   => $avstapp::hosting_group,
-                    mode    => '0644',
-                    require => File[$instance_dir],
-                }
-
-
                 if defined(Class['apache']) {
                     $wizard_deps = [ File["${instance_dir}/avst-wizard.yaml"], Service[$name], Service[$::apache::service_name] ]
                 } else {
@@ -463,7 +452,15 @@ define avstapp::instance(
                     }
                 }
 
-
+                # Prepare config for avst-wizard application
+                file { "${instance_dir}/avst-wizard.yaml" :
+                    ensure  => file,
+                    content => template("${module_name}/avst-wizard-templates/avst-wizard-${application_breed}.yaml.erb"),
+                    owner   => $avstapp::hosting_user,
+                    group   => $avstapp::hosting_group,
+                    mode    => '0644',
+                    require => File[$instance_dir],
+                }
 
                 # # pass wizard with avst-wizard
                 exec { "complete_service_instalation_with_avst_wizard_${name}" :
