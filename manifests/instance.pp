@@ -443,7 +443,7 @@ define avstapp::instance(
                     $wizard_context_path=''
                 } else {
                     $wizard_tomcat_port_switch = ''
-                    if ($context_path == '/') {
+                    if ($context_path == '/' or $context_path == '') {
                         $wizard_base_url = $base_url
                         $wizard_context_path=''
                     } else {
