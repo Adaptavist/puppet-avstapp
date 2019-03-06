@@ -28,6 +28,7 @@ Here is a complete YAML snippet for configuring a Crowd server which will be dis
     # Set users to be used for avstapp instalation
     avstapp::hosting_user: 'hosting'
     avstapp::hosting_group: 'hosting'
+    avstapp::java_module_name: 'oracle_java'
 
     hosts:
       'avst-stg1':

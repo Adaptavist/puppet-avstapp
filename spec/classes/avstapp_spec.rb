@@ -2,6 +2,7 @@ require 'spec_helper'
  
 base_directory = '/opt'
 cust_base_directory = '/tmp'
+java_module = 'oracle_java'
 hosting_user      = 'hosting'
 hosting_group     = 'hosting'
 host = { 'avstapp::conf' => {} }
@@ -19,6 +20,9 @@ custom_host = { 'avstapp::conf' => {
 describe 'avstapp', :type => 'class' do
   
   context "Should create base dir, avst-app file and instantiate resources" do
+    let(:params){{
+      :java_module_name => java_module
+    }}
     let(:facts){{
       :osfamily => 'Debian',
       :lsbdistid => 'Ubuntu',
@@ -27,7 +31,7 @@ describe 'avstapp', :type => 'class' do
       :host => host,
     }}
     it do
-      should contain_class('oracle_java')
+      should contain_class(java_module)
       should contain_file(base_directory).with(
           'ensure'  => 'directory',
           'owner'   => 'root',
@@ -49,6 +53,7 @@ describe 'avstapp', :type => 'class' do
       :hosting_user => hosting_user,
       :hosting_group => hosting_group,
       :conf => conf, 
+      :java_module_name => java_module
     }}
     let(:facts){{
       :osfamily => 'Debian',
@@ -58,7 +63,7 @@ describe 'avstapp', :type => 'class' do
       :host => custom_host,
     }}
     it do
-      should contain_class('oracle_java')
+      should contain_class(java_module)
       should contain_file(cust_base_directory).with(
           'ensure'  => 'directory',
           'owner'   => 'root',
