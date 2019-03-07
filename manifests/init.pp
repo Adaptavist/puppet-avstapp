@@ -24,12 +24,15 @@ class avstapp(
     $hosting_group     = 'root',
     $soft_nofile       = '1024',
     $hard_nofile       = '8192',
+    $java_module_name  = 'oracle_java',
     $conf = {},
 ){
 
+
     class { 'avstapp::syslog': } -> class { 'avstapp::dependencies':
-        soft_nofile => $soft_nofile,
-        hard_nofile => $hard_nofile
+        soft_nofile      => $soft_nofile,
+        hard_nofile      => $hard_nofile,
+        java_module_name => $java_module_name
     } -> Class['avstapp']
 
     if $::host != undef {

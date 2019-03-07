@@ -106,7 +106,9 @@ define avstapp::instance(
     $limits                       = { 'SERVICE_MAX_OPEN_FILES' => '8196'},
     $agent_uuid                   = '',
     $agent_security_token         = '',
+    $java_module_name             = $avstapp::java_module_name,
 ) {
+
 
 
     unless empty($class_dependencies) {
@@ -354,7 +356,7 @@ define avstapp::instance(
                 command   => "avst-app --debug ${name} install ${product_source}",
                 logoutput => on_failure,
                 onlyif    => [ "test ! -f ${instance_dir}/.state", "test ! -d ${instance_dir}/home", "test ! -d ${instance_dir}/install" ],
-                require   => [File["${instance_dir}/avst-app.cfg.sh"], Class['oracle_java'], Package[$package_name]],
+                require   => [File["${instance_dir}/avst-app.cfg.sh"], Class["${java_module_name}"], Package[$package_name]],
             }
 
             # run avst-app modify

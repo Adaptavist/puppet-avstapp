@@ -1,11 +1,13 @@
 class avstapp::dependencies(
     $soft_nofile       = '1024',
     $hard_nofile       = '8192',
+    $java_module_name  = 'oracle_java',
 ) {
+
 
     # Installs Oracle Java
     include packages_repos
-    include oracle_java
+    include $java_module_name
 
     case $::osfamily {
         'RedHat': {

@@ -14,6 +14,7 @@ instance_dir = "#{base_directory}/#{instance_name}"
 hosting_user = 'root'
 hosting_group = 'root'
 change_ownership_sh = "chown -R #{hosting_user}:#{hosting_group} #{instance_dir}/install"
+java_module = 'oracle_java'
 
 describe 'avstapp::instance', :type => 'define' do
 let('title'){instance_name}
@@ -28,6 +29,7 @@ let('title'){instance_name}
 	}}
 	let(:params){{
 		:tarball_location_url => tarball_location_url,
+		:java_module_name => java_module
 	}}
 
     it do
@@ -65,6 +67,7 @@ let('title'){instance_name}
     end
 	let(:params){{
 		:tarball_location_file => tarball_location_file,
+		:java_module_name => java_module
 	}}
 
     it do

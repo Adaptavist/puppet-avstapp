@@ -5,5 +5,6 @@ require 'puppet-syntax/tasks/puppet-syntax'
 
 PuppetLint.configuration.send('disable_quoted_booleans')
 PuppetLint.configuration.send('disable_140chars')
+PuppetLint.configuration.send('disable_only_variable_string')
 ENV['STRICT_VARIABLES']='no'
 task :default => [:spec, :lint, :syntax]

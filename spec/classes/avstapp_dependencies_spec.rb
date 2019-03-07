@@ -2,6 +2,7 @@ require 'spec_helper'
 
 base_directory = '/opt'
 cust_base_directory = '/tmp'
+java_module = 'oracle_java'
 hosting_user      = 'hosting'
 hosting_group     = 'hosting'
 soft_nofile = '2048'
@@ -23,6 +24,7 @@ describe 'avstapp::dependencies', :type => 'class' do
     let(:params){{
       :soft_nofile => soft_nofile,
       :hard_nofile => hard_nofile,
+      :java_module_name => java_module,
     }}
     let(:facts){{
       :osfamily => 'Debian',
@@ -34,7 +36,7 @@ describe 'avstapp::dependencies', :type => 'class' do
     }}
 
     it do
-      should contain_class('oracle_java')
+      should contain_class(java_module)
       should contain_limits__fragment('*/soft/nofile').with(
         'value' => soft_nofile
       )
@@ -51,6 +53,7 @@ describe 'avstapp::dependencies', :type => 'class' do
     let(:params){{
       :soft_nofile => soft_nofile,
       :hard_nofile => hard_nofile,
+      :java_module_name => java_module,
     }}
     let(:facts){{
       :osfamily => 'RedHat',
@@ -63,7 +66,7 @@ describe 'avstapp::dependencies', :type => 'class' do
     }}
 
     it do
-      should contain_class('oracle_java')
+      should contain_class(java_module)
       should contain_limits__fragment('*/soft/nofile').with(
         'value' => soft_nofile
       )
