@@ -20,6 +20,12 @@ describe 'avstapp::instance', :type => 'define' do
 let('title'){instance_name}
 
   context "Should create dirs, download tar from url, extract tar and prepare avst-app.conf.sh " do
+ 	# root user/group is not explicitally created, however they need to be present for puppet 5/6 
+ 	# rspec tests, add to the scope of the test via pre_condition
+	let(:pre_condition) {[
+		'user {"root": ensure => present}',
+		'group {"root": ensure => present}'
+	]}
 	let(:facts){{
 		:osfamily => 'Debian',
 		:lsbdistid => 'Ubuntu',
@@ -55,7 +61,12 @@ let('title'){instance_name}
   end
 
   context "Should create dirs, extract tar, prepare avst-app.conf.sh when tar_path is provided" do
-
+ 	# root user/group is not explicitally created, however they need to be present for puppet 5/6 
+ 	# rspec tests, add to the scope of the test via pre_condition
+	let(:pre_condition) {[
+		'user {"root": ensure => present}',
+		'group {"root": ensure => present}'
+	]}
 	let :facts do
       { :osfamily        => 'Debian',
         :lsbdistcodename => 'precise',

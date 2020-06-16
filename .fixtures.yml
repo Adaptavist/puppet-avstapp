@@ -20,5 +20,9 @@ fixtures:
       repo: 'https://github.com/Adaptavist/puppet-yum'
     puppi:
       repo: 'https://github.com/Adaptavist/puppet-puppi'
+    augeas_core:
+        repo: "https://github.com/puppetlabs/puppetlabs-augeas_core"
+    yumrepo_core:
+      repo: "https://github.com/Adaptavist/puppetlabs-yumrepo_core"
   symlinks:
     avstapp: "#{source_dir}"

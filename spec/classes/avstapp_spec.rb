@@ -48,6 +48,12 @@ describe 'avstapp', :type => 'class' do
     end
   end
   context "Should create base dir, avst_app file and instantiate resources with custom params" do
+    # hosting user/group is not explicitally created, usually created outside the module, however they need
+    # to be present for puppet 5/6 rspec tests, add to the scope of the test via pre_condition
+    let(:pre_condition) {[
+      'user {"hosting": ensure => present}',
+      'group {"hosting": ensure => present}'
+    ]}
     let(:params){{
       :base_directory => cust_base_directory,
       :hosting_user => hosting_user,

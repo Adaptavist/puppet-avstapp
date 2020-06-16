@@ -1,17 +1,11 @@
-rvm: 2.0.0
+rvm: 2.4.0
 env:
-- PUPPET_VERSION=3.5.1
-- PUPPET_VERSION=3.6.2
-- PUPPET_VERSION=3.7.5
 - PUPPET_VERSION=4.8.1
+- PUPPET_VERSION=5.5.20
+- PUPPET_VERSION=6.15.0
 notifications:
   email: false
-  hipchat:
-    rooms:
-      secure: dtWHXPEeVCFV5QPNu/8yD794Nt4knDb1M/+RgFbHfavQTFJHbASOMMhwRPfs6zQdBuNcSTBnr8fhBsruNUObLXbk8icWks4zdX/voEgZIIZQK+9F3c/r6VEtAWklmr1qnCp/cNkuAJ4cGDfG0Nc4+5nZ2ttmIVU38TIO0qIs2uDUremWtvw7FnlBsVoeG8aSocg3eZQedufOkY0TZxwk41ddJ7WaDizQrGGEnQRwYu1p3fLNyJS3fhB8n5sxSzUzP1LRf3onPkktT6234f9eYwcnY4auef3bnNDv1gchFH82d6h0wWb+6iZjXYmLLFo6k6nVy6zGyhMt5KILhLSnVxeGb6Z80Y/hUfgEyRTauEBzuMcX1/Es0CTlwp5OVOYK6zg6jlxbGKVBAGZYM94G4J0maB54QnaE99aNQfQsGnKdtdkTmaXlCvcbT0Rt+a8GM2m4uY61RxyyrJvrjzEFhfIDSyU9+OladOq1W4ON7fUfOGjDLbZx91K7zTirCKpy605h9NfIQZ3CCLcgIZhBF4AJ5q/js04O6jiqBV7yAqH81bivClyMbuy8RPYYFEepwObon9jK7IIOK++DlpPvyyGZEEpvPmdrAuSvdJLg/kB4Rqmcyybl8RyDO//p0sY4oGDwvWobc5qTYKmJg3xeV7r/7rC4ZGPM5l15P5cSm/k=
-    template:
-    - 'Puppet Module - %{repository} #%{build_number} (%{build_url}) by %{author}:
-      %{message}'
 branches:
   only:
   - master
+
