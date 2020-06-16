@@ -38,7 +38,7 @@ let('title'){instance_name}
 		:java_module_name => java_module
 	}}
 
-    it do
+    it {
 		should contain_class('avstapp')
 		[instance_dir].each do |file_name|
 	    	should contain_file( file_name ).with(
@@ -47,17 +47,19 @@ let('title'){instance_name}
 			    'group'  => hosting_group,
 			)
 	    end
+	}
+	
+	it { should contain_avstapp__download_tar_file(tarball_location_url) }
 
-	    should contain_avstapp__download_tar_file(tarball_location_url)
-
-	    should contain_file("#{instance_dir}/avst-app.cfg.sh").with(
+	it {
+		should contain_file("#{instance_dir}/avst-app.cfg.sh").with(
 		    'ensure'  => 'file',
 		    'owner'   => hosting_user,
 		    'group'   => hosting_group,
 		    'mode'    => '0644',
 		    'require' => "File[#{instance_dir}]",
 		)
-    end
+    }
   end
 
   context "Should create dirs, extract tar, prepare avst-app.conf.sh when tar_path is provided" do
@@ -81,7 +83,7 @@ let('title'){instance_name}
 		:java_module_name => java_module
 	}}
 
-    it do
+    it {
 		should contain_class('avstapp')
 		[instance_dir].each do |file_name|
 	    	should contain_file( file_name ).with(
@@ -90,7 +92,9 @@ let('title'){instance_name}
 			    'group'  => hosting_group,
 			)
 	    end
+	}
 
+	it {
 	    should contain_file("#{instance_dir}/avst-app.cfg.sh").with(
 		    'ensure'  => 'file',
 		    'owner'   => hosting_user,
@@ -98,7 +102,7 @@ let('title'){instance_name}
 		    'mode'    => '0644',
 		    'require' => "File[#{instance_dir}]",
 		)
-    end
+    }
   end
 end
 

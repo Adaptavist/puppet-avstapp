@@ -30,14 +30,18 @@ describe 'avstapp', :type => 'class' do
       :lsbdistcodename => 'precise',
       :host => host,
     }}
-    it do
-      should contain_class(java_module)
+
+    it { should contain_class(java_module) }
+    
+    it {
       should contain_file(base_directory).with(
           'ensure'  => 'directory',
           'owner'   => 'root',
           'group'   => 'root',
           'mode'    => '0755',
       )
+    }
+    it {
       should contain_file('/etc/default/avst-app').with(
         'ensure'  => 'file',
         'owner'   => 'root',
@@ -45,8 +49,9 @@ describe 'avstapp', :type => 'class' do
         'mode'    => '0644',
       ).with_content(/BASE_DIR=\/opt/)
       .with_content(/INSTANCE_USER=root/)
-    end
+    }
   end
+
   context "Should create base dir, avst_app file and instantiate resources with custom params" do
     # hosting user/group is not explicitally created, usually created outside the module, however they need
     # to be present for puppet 5/6 rspec tests, add to the scope of the test via pre_condition
@@ -68,14 +73,19 @@ describe 'avstapp', :type => 'class' do
       :lsbdistcodename => 'precise',
       :host => custom_host,
     }}
-    it do
-      should contain_class(java_module)
+
+    it { should contain_class(java_module) }
+
+    it {
       should contain_file(cust_base_directory).with(
           'ensure'  => 'directory',
           'owner'   => 'root',
           'group'   => 'root',
           'mode'    => '0755',
       )
+    }
+    
+    it {
       should contain_file('/etc/default/avst-app').with(
         'ensure'  => 'file',
         'owner'   => 'root',
@@ -83,9 +93,9 @@ describe 'avstapp', :type => 'class' do
         'mode'    => '0644',
       ).with_content(/BASE_DIR=#{cust_base_directory}/)
       .with_content(/INSTANCE_USER=#{hosting_user}/)
-
-      should contain_avstapp__instance('crowd-stg1')
-    end
+    }
+    
+    it { should contain_avstapp__instance('crowd-stg1') }
   end
 end
 

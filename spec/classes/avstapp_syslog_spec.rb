@@ -21,11 +21,12 @@ describe 'avstapp::syslog', :type => 'class' do
       :syslog_implementation => "rsyslog",
       :syslog_destination => def_syslog_file,
     }}
-    it do
-      should contain_service('rsyslog').with( 'ensure' => 'running')
-      should contain_file("#{def_syslog_file}").with('ensure' => 'absent')
-      should contain_file("#{def_logrotate_file}").with('ensure' => 'absent')
-    end
+
+    it { should contain_service('rsyslog').with( 'ensure' => 'running') }
+    
+    it { should contain_file("#{def_syslog_file}").with('ensure' => 'absent') }
+    
+    it { should contain_file("#{def_logrotate_file}").with('ensure' => 'absent') }
   end
 
   context "Should not create rsyslog but not logrotate config" do
@@ -41,16 +42,21 @@ describe 'avstapp::syslog', :type => 'class' do
       :syslog_implementation => "rsyslog",
       :syslog_destination => def_syslog_file,
     }}
-    it do
-      should contain_service('rsyslog').with( 'ensure' => 'running')
+
+    it { should contain_service('rsyslog').with( 'ensure' => 'running') }
+
+    it {
       should contain_file("#{def_syslog_file}").with(
         'ensure' => 'file',
         'owner'   => 'root',
         'group'   => 'root',
         'mode'    => '0644',
        )
+    }
+
+    it {
       should contain_file("#{def_logrotate_file}").with('ensure' => 'absent')
-    end
+    }
   end
 
   context "Should create rsyslog that drops messages but not logrotate config" do
@@ -66,16 +72,19 @@ describe 'avstapp::syslog', :type => 'class' do
       :syslog_implementation => "rsyslog",
       :syslog_destination => syslog_no_log,
     }}
-    it do
-      should contain_service('rsyslog').with( 'ensure' => 'running')
+
+    it { should contain_service('rsyslog').with( 'ensure' => 'running') }
+
+    it {
       should contain_file("#{def_syslog_file}").with(
         'ensure' => 'file',
         'owner'   => 'root',
         'group'   => 'root',
         'mode'    => '0644',
       )
-      should contain_file("#{def_logrotate_file}").with('ensure' => 'absent')
-    end
+    }
+
+    it { should contain_file("#{def_logrotate_file}").with('ensure' => 'absent') }
   end
 
   context "Should create rsyslog and logrotate config" do
@@ -91,21 +100,26 @@ describe 'avstapp::syslog', :type => 'class' do
       :syslog_implementation => "rsyslog",
       :syslog_destination => def_syslog_file,
     }}
-    it do
-      should contain_service('rsyslog').with( 'ensure' => 'running')
+
+    it { should contain_service('rsyslog').with( 'ensure' => 'running') }
+
+    it {
       should contain_file("#{def_syslog_file}").with(
         'ensure' => 'file',
         'owner'   => 'root',
         'group'   => 'root',
         'mode'    => '0644',
       )
+    }
+
+    it {
       should contain_file("#{def_logrotate_file}").with(
         'ensure' => 'file',
         'owner'   => 'root',
         'group'   => 'root',
         'mode'    => '0644',
       )
-    end
+    }
   end
   
   context "Should error with unsupported syslog implementation" do
@@ -121,9 +135,7 @@ describe 'avstapp::syslog', :type => 'class' do
       :syslog_implementation => "syslog-ng",
       :syslog_destination => def_syslog_file,
     }}
-    it do
-      should raise_error(Puppet::Error, /avst-app::syslog: Unsupported syslog implementation/)
-    end
+    it { should raise_error(Puppet::Error, /avst-app::syslog: Unsupported syslog implementation/) }
   end
 end
 

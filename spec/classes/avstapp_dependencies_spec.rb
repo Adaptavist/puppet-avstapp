@@ -35,18 +35,25 @@ describe 'avstapp::dependencies', :type => 'class' do
 
     }}
 
-    it do
-      should contain_class(java_module)
+    it { should contain_class(java_module) }
+
+    it {
       should contain_limits__fragment('*/soft/nofile').with(
         'value' => soft_nofile
       )
+    }
+
+    it {
       should contain_limits__fragment('*/hard/nofile').with(
         'value' => hard_nofile
       )
+    }
+    
+    it {
       should contain_package('libaugeas-ruby').with(
         'ensure' => 'installed',
       )
-    end
+    }
   end
 
   context "Should include all dependencies based on operating system for generic avstapp app on RedHat" do
@@ -65,19 +72,26 @@ describe 'avstapp::dependencies', :type => 'class' do
       :host => host,
     }}
 
-    it do
-      should contain_class(java_module)
+    it { should contain_class(java_module) }
+
+    it {
       should contain_limits__fragment('*/soft/nofile').with(
         'value' => soft_nofile
       )
+    }
+
+    it {
       should contain_limits__fragment('*/hard/nofile').with(
         'value' => hard_nofile
       )
+    }
+    
+    it {
       ['apr-util', 'neon', 'augeas'].each do |pack|
         should contain_package(pack).with(
               'ensure' => 'installed',
         )
       end
-    end
+    }
   end
 end
